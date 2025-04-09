@@ -1,0 +1,5 @@
+<div{{ attributes }} class="d-flex flex-wrap justify-content-center gap-2 p-3 border rounded-1">
+    {% for product in this.products %}
+        <twig:Product :product="product" />
+    {% endfor %}
+</div>
