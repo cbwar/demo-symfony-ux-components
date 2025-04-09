@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y ca-certificates curl gnupg && \
     rm -rf /var/lib/apt/lists/* && \
     npm install --global npm@latest
 
+RUN apt-get update && apt-get install unzip sudo -y && rm -rf /var/lib/apt/lists/*
+
 # Configure Apache
 RUN cat <<EOF > /etc/apache2/sites-enabled/000-default.conf
 <VirtualHost *:80>
@@ -46,6 +48,15 @@ RUN cat <<EOF > /etc/apache2/sites-enabled/000-default.conf
 </VirtualHost>
 EOF
 
+ARG USERID=1000
+ARG GROUPID=1000
+
+RUN groupadd --gid ${GROUPID} dev \
+    && adduser --uid ${USERID} --gid ${GROUPID} dev \
+    && adduser dev sudo \
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+    && chown dev:dev -R /home/dev
+
 RUN mkdir /composer-cache
 ENV COMPOSER_HOME=/composer-cache
 VOLUME [ "/composer-cache" ]
@@ -54,3 +65,4 @@ RUN mkdir /npm-cache && npm config set cache /npm-cache
 VOLUME [ "/npm-cache" ]
 
 WORKDIR /sources
+USER dev
