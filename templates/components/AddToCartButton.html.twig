@@ -1,3 +1,17 @@
 <div{{ attributes }}>
-    <!-- component html -->
+    {% if this.hasItem %}
+        <button data-action="live#action"
+                data-live-action-param="remove()"
+                class="btn btn-sm btn-danger">
+            <i class="fas fa-minus"></i>
+            Remove
+        </button>
+    {% else %}
+        <button data-action="live#action"
+                data-live-action-param="add()"
+                class="btn btn-sm btn-primary">
+            <i class="fas fa-plus"></i>
+            Add
+        </button>
+    {% endif %}
 </div>

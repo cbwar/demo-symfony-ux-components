@@ -5,4 +5,7 @@
     <img src="{{ this.product.image }}"/>
 
     <p>Price: <span class="fw-bolder">{{ this.product.price }} &euro;</span></p>
+
+    {{ component('AddToCartButton', {productId: this.product.id}) }}
+
 </div>
